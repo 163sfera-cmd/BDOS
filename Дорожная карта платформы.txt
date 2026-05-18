@@ -1,0 +1,1167 @@
+# FINAL PRODUCT ROADMAP v4
+
+# Construction Procurement Intelligence Platform
+
+## Deterministic Construction Data Infrastructure for PSD → Procurement
+
+---
+
+# 0. PRODUCT GOAL (NEW FOUNDATION)
+
+Теперь цель продукта становится намного более конкретной и сильной.
+
+Мы строим НЕ абстрактную semantic platform.
+
+Мы строим:
+
+> систему превращения хаотичной ПСД (СО, ВР, спецификации, ведомости) в управляемую procurement-базу объекта.
+
+---
+
+# CORE BUSINESS FLOW
+
+```text id="s8n2kq"
+ПСД (Excel)
+↓
+Структурное распознавание
+↓
+Нормализация позиций
+↓
+Формирование базы объекта
+↓
+Отслеживание ИЗМ
+↓
+Формирование потребностей
+↓
+Создание заявок
+↓
+Работа снабжения
+↓
+Контроль закупок / поставок / изменений
+```
+
+---
+
+# PRODUCT POSITIONING
+
+Это НЕ OCR tool.
+
+Это НЕ parser.
+
+Это:
+
+> Construction Procurement Intelligence System
+
+или:
+
+> PSD-to-Procurement Operating Layer
+
+---
+
+# 1. CORE PRODUCT THESIS
+
+---
+
+# ЧТО МЫ СТРОИМ
+
+Систему, которая:
+
+✅ понимает Excel ПСД
+✅ восстанавливает структуру строительных ведомостей
+✅ отслеживает ИЗМ
+✅ создает canonical object database
+✅ связывает позиции между ревизиями
+✅ помогает формировать закупки
+✅ снижает хаос снабжения
+✅ сохраняет provenance каждой позиции
+✅ deterministic-first
+✅ human-controlled
+
+---
+
+# ЧТО МЫ НЕ СТРОИМ
+
+❌ AI agent
+❌ chatbot по PDF
+❌ universal BIM platform
+❌ autonomous procurement AI
+❌ “magic AI parser”
+❌ full ERP replacement
+
+---
+
+# 2. MAIN BUSINESS PROBLEM
+
+---
+
+# CURRENT REALITY
+
+На стройке сейчас:
+
+```text id="m5h12m"
+ВР / СО / спецификации
+→ десятки Excel
+→ разные подрядчики
+→ разные шаблоны
+→ ИЗМ теряются
+→ дубли закупок
+→ ошибки объемов
+→ снабжение работает вручную
+→ невозможно понять "что реально нужно"
+```
+
+---
+
+# ПРОБЛЕМА НЕ В OCR
+
+Проблема:
+
+```text id="v76y0r"
+нет единой trusted object material structure
+```
+
+---
+
+# 3. MAIN PRODUCT WEDGE (CRITICAL)
+
+# THIS IS IMPORTANT
+
+Первый wedge должен быть:
+
+# Revision-Aware Procurement Engine
+
+---
+
+# MVP VALUE
+
+Пользователь:
+
+```text id="0w8hqm"
+Загружает ВР / СО
+↓
+Система строит структуру
+↓
+Создает базу материалов объекта
+↓
+Отслеживает изменения ИЗМ
+↓
+Показывает delta
+↓
+Формирует закупочные потребности
+```
+
+---
+
+# THIS IS THE ACTUAL PRODUCT
+
+НЕ semantic graph.
+
+НЕ AI platform.
+
+А:
+
+```text id="n8ddf0"
+Reliable PSD → Procurement pipeline
+```
+
+---
+
+# 4. CORE PRODUCT MODULES
+
+---
+
+# MODULE 1 — INGESTION LAYER
+
+# PURPOSE
+
+Загрузка и регистрация файлов ПСД.
+
+---
+
+## INPUTS
+
+### Supported Initially
+
+✅ Excel (.xlsx)
+✅ XLS
+✅ multi-sheet documents
+
+---
+
+## Supported Document Types
+
+✅ СО
+✅ ВР
+✅ спецификации
+✅ ведомости материалов
+✅ ведомости объемов работ
+
+---
+
+## Responsibilities
+
+### File Registration
+
+```yaml id="m0o7x6"
+file_id
+project_id
+revision_id
+document_type
+upload_timestamp
+uploader
+source_filename
+hash
+```
+
+---
+
+## Duplicate Detection
+
+Проверка:
+
+```text id="w6v0o3"
+same file?
+same revision?
+same content?
+```
+
+---
+
+## Initial Classification
+
+Определение:
+
+```text id="ovl9nq"
+СО?
+ВР?
+Спецификация?
+```
+
+---
+
+# IMPORTANT
+
+AI может помогать classification.
+
+Но orchestration deterministic.
+
+---
+
+# MODULE 2 — RAW EXCEL EXTRACTION ENGINE
+
+# PURPOSE
+
+Извлечь максимум структуры из Excel без semantic interpretation.
+
+---
+
+# OUTPUT
+
+# Excel Raw Graph
+
+---
+
+## Extracted Entities
+
+### Cells
+
+```yaml id="4d0wx1"
+sheet
+row
+col
+value
+formula
+datatype
+style_id
+```
+
+---
+
+### Layout Signals
+
+```yaml id="m9r9xz"
+merged_cells
+borders
+fill_color
+font
+alignment
+hidden_rows
+hidden_cols
+column_width
+row_height
+```
+
+---
+
+### Structural Signals
+
+```yaml id="wjlwm7"
+empty_regions
+repeating_patterns
+visual_separators
+header_candidates
+```
+
+---
+
+# IMPORTANT
+
+На этом этапе:
+
+❌ НЕТ semantic logic
+❌ НЕТ materials
+❌ НЕТ procurement
+
+Только:
+
+```text id="zn2m3m"
+faithful structural extraction
+```
+
+---
+
+# MODULE 3 — STRUCTURAL RECONSTRUCTION ENGINE
+
+# THIS IS THE CORE
+
+---
+
+# PURPOSE
+
+Превратить Excel visual chaos →
+в structured construction hierarchy.
+
+---
+
+# OUTPUT
+
+# Unified Structural Representation (USR)
+
+---
+
+# System Must Reconstruct
+
+---
+
+## Table Hierarchy
+
+```text id="frjqpk"
+Раздел
+→ Подраздел
+→ Позиция
+→ Подпозиция
+```
+
+---
+
+## Continuation Rows
+
+```text id="7i6dnr"
+позиция переносится на несколько строк
+```
+
+---
+
+## Totals
+
+```text id="4qjlwm"
+ИТОГО
+ВСЕГО
+Σ
+```
+
+---
+
+## Notes
+
+```text id="yjlwm6"
+Примечания
+Комментарии
+```
+
+---
+
+## Cross-Sheet References
+
+---
+
+# IMPORTANT SUBSYSTEM
+
+# Layout Heuristics Engine
+
+---
+
+# Responsibilities
+
+## Rule Packs
+
+Например:
+
+```text id="pn5kwk"
+merged cells + bold + top border
+→ section header
+```
+
+---
+
+## Confidence Scoring
+
+```yaml id="f4x84v"
+structural_confidence:
+  hierarchy
+  headers
+  continuation_rows
+  totals
+```
+
+---
+
+## Fallback Modes
+
+Если структура плохая:
+
+```text id="x8pm8u"
+UNKNOWN_STRUCTURE
+→ validation queue
+```
+
+---
+
+# MODULE 4 — VALIDATION SYSTEM
+
+# THIS MODULE = PRODUCT ECONOMICS
+
+---
+
+# PURPOSE
+
+Human-in-the-loop quality control.
+
+---
+
+# IMPORTANT
+
+Validation НЕ должна стать болотом.
+
+---
+
+# Validation Types
+
+---
+
+## Structural Validation
+
+Проверка:
+
+✅ hierarchy
+✅ headers
+✅ continuation rows
+✅ totals
+✅ broken tables
+
+---
+
+## Semantic Validation
+
+Проверка:
+
+✅ material names
+✅ units
+✅ duplicates
+✅ suspicious positions
+
+---
+
+# Validation Queue Prioritization
+
+```text id="ikpr3d"
+priority =
+impact × uncertainty × procurement_relevance
+```
+
+---
+
+# REQUIRED UX
+
+---
+
+## Side-by-Side Review
+
+```text id="cgz9t2"
+original excel
+↔ reconstructed structure
+```
+
+---
+
+## Batch Approval
+
+```text id="4fvszn"
+Apply correction to all similar cases?
+```
+
+---
+
+## Keyboard-First Workflow
+
+Validation operators должны работать быстро.
+
+---
+
+# CORE KPI
+
+# HUMAN MINUTES PER DOCUMENT
+
+---
+
+# TARGET
+
+```text id="y8h4x6"
+<5 minutes validation
+per large document
+```
+
+---
+
+# MODULE 5 — SEMANTIC NORMALIZATION ENGINE
+
+# PURPOSE
+
+Нормализовать строительные позиции.
+
+---
+
+# INPUT
+
+```text id="0ub0j6"
+"Профлист С8 оц."
+```
+
+---
+
+# OUTPUT
+
+# Canonical Material Entity
+
+```yaml id="q7h3m1"
+material_id
+canonical_name
+aliases
+unit
+category
+supplier_mapping
+```
+
+---
+
+# IMPORTANT
+
+Normalization Pipeline:
+
+```text id="jlwmx2"
+Dictionary
+→ Rules
+→ Fuzzy Match
+→ Vector Search
+→ LLM fallback
+```
+
+---
+
+# NEVER
+
+```text id="4y7h8r"
+LLM decides directly
+```
+
+---
+
+# UNKNOWN-FIRST
+
+Если confidence низкий:
+
+```text id="psg9jw"
+UNKNOWN_MATERIAL
+→ validation
+```
+
+---
+
+# IMPORTANT
+
+# MATERIAL MASTER DATABASE
+
+Это будущий moat.
+
+---
+
+# MODULE 6 — OBJECT DATABASE ENGINE
+
+# THIS IS THE REAL CORE
+
+---
+
+# PURPOSE
+
+Создать живую procurement-модель объекта.
+
+---
+
+# Object Structure
+
+```text id="ay9zwn"
+Project
+→ Revision
+→ Section
+→ Position
+→ Material
+→ Procurement State
+```
+
+---
+
+# IMPORTANT
+
+# Canonical Position Identity
+
+Даже если:
+
+* изменилась формулировка
+* изменился объем
+* изменился порядок
+
+позиция должна сохранять identity.
+
+---
+
+# Required Fields
+
+```yaml id="yxk8gz"
+position_id
+canonical_material_id
+source_documents
+quantities
+unit
+revision_history
+procurement_status
+delivery_status
+provenance
+```
+
+---
+
+# MODULE 7 — REVISION ENGINE
+
+# PURPOSE
+
+Понимать ИЗМ.
+
+---
+
+# THIS IS CRITICAL
+
+---
+
+# Revision Matching
+
+Система должна определять:
+
+✅ added positions
+✅ deleted positions
+✅ quantity changes
+✅ renamed positions
+✅ split/merged rows
+
+---
+
+# IMPORTANT SUBSYSTEM
+
+# Entity Identity Resolution Engine
+
+---
+
+# WHY
+
+Потому что:
+
+```text id="mk1m0s"
+позиция может измениться
+без сохранения текста
+```
+
+---
+
+# Matching Strategy
+
+```text id="shh2wg"
+structure
++ hierarchy
++ units
++ neighboring positions
++ semantic similarity
++ quantities
+```
+
+---
+
+# OUTPUT
+
+# Procurement Delta
+
+---
+
+## Example
+
+```text id="f5x3d7"
+ИЗМ 3:
+
++ 120 м2 профлиста
+- 40 м трубы
+± изменен объем бетона
+```
+
+---
+
+# MODULE 8 — PROCUREMENT ENGINE
+
+# THIS = BUSINESS VALUE
+
+---
+
+# PURPOSE
+
+Превратить базу объекта →
+в закупочный workflow.
+
+---
+
+# Procurement Workflow
+
+```text id="f0v4u2"
+Object Need
+↓
+Procurement Request
+↓
+Supplier Processing
+↓
+Purchase Status
+↓
+Delivery Status
+```
+
+---
+
+# Procurement States
+
+```text id="n1l7tp"
+NEW
+IN_REQUEST
+ORDERED
+PARTIAL
+DELIVERED
+CANCELLED
+```
+
+---
+
+# FEATURES
+
+---
+
+## Auto-Generated Requests
+
+На основе:
+
+```text id="fjlwm5"
+delta revisions
++
+remaining quantities
+```
+
+---
+
+## Consolidation
+
+Система должна понимать:
+
+```text id="wn8qcg"
+один и тот же материал
+в разных разделах
+```
+
+---
+
+## Remaining Demand Calculation
+
+```text id="cx87mc"
+needed
+-
+ordered
+-
+delivered
+=
+remaining
+```
+
+---
+
+# MODULE 9 — SUPPLY MANAGEMENT LAYER
+
+# PURPOSE
+
+Интерфейс снабжения.
+
+---
+
+# REQUIRED FEATURES
+
+---
+
+## Request Management
+
+✅ create request
+✅ assign supplier
+✅ attach КП
+✅ compare offers
+✅ track status
+
+---
+
+## Supplier Comparison
+
+```text id="q2h8v9"
+price
+delivery
+availability
+lead time
+```
+
+---
+
+## Procurement Audit Trail
+
+Кто:
+
+* изменил заявку
+* изменил объем
+* подтвердил закупку
+
+---
+
+# IMPORTANT
+
+НЕ строить ERP.
+
+Только procurement workflow.
+
+---
+
+# MODULE 10 — PROVENANCE & AUDIT SYSTEM
+
+# PURPOSE
+
+Полная traceability.
+
+---
+
+# Every Position Must Know
+
+```yaml id="j4t2xz"
+source_file
+sheet
+row
+col
+parser_version
+pipeline_run
+human_corrections
+revision_origin
+```
+
+---
+
+# WHY THIS MATTERS
+
+Когда снабженец спросит:
+
+```text id="hjlwm4"
+"откуда взялись эти 240 м2?"
+```
+
+система должна отвечать instantly.
+
+---
+
+# MODULE 11 — EVENT & VERSIONING SYSTEM
+
+# IMPORTANT
+
+НЕ full enterprise event sourcing.
+
+---
+
+# USE:
+
+# Hybrid Event Architecture
+
+```text id="zw2r1o"
+immutable events
++
+materialized snapshots
+```
+
+---
+
+# Events
+
+```text id="6j0p8t"
+FileUploaded
+StructureReconstructed
+MaterialNormalized
+RevisionMatched
+HumanCorrected
+ProcurementUpdated
+```
+
+---
+
+# WHY
+
+Это даст:
+
+✅ replay
+✅ audit
+✅ debugging
+✅ rollback
+✅ parser evolution support
+
+---
+
+# MODULE 12 — SECURITY & MULTI-TENANCY
+
+# FROM DAY ONE
+
+---
+
+# Required
+
+✅ tenant_id everywhere
+✅ isolated storage
+✅ audit logs
+✅ role-based access
+✅ encrypted file storage
+
+---
+
+# Roles
+
+```text id="c6r4qs"
+Admin
+Engineer
+Validator
+Procurement
+Viewer
+```
+
+---
+
+# MODULE 13 — OBSERVABILITY & QUALITY CONTROL
+
+# REQUIRED METRICS
+
+---
+
+## Extraction Metrics
+
+```text id="j4jlwm"
+structural_accuracy
+table_detection_rate
+continuation_detection_rate
+```
+
+---
+
+## Semantic Metrics
+
+```text id="jlwmr3"
+canonicalization_precision
+unknown_rate
+false_merge_rate
+```
+
+---
+
+## Procurement Metrics
+
+```text id="7wn1wz"
+request_generation_accuracy
+duplicate_prevention_rate
+revision_delta_accuracy
+```
+
+---
+
+## Human Validation Metrics
+
+```text id="jlwm9q"
+validation_minutes_per_doc
+queue_backlog
+correction_reuse_rate
+```
+
+---
+
+# MODULE 14 — AI USAGE POLICY
+
+# VERY IMPORTANT
+
+---
+
+# AI MAY:
+
+✅ classify
+✅ canonicalize
+✅ rank candidates
+✅ estimate confidence
+✅ suggest corrections
+
+---
+
+# AI MAY NOT:
+
+❌ mutate database directly
+❌ approve procurement
+❌ auto-link uncertain revisions
+❌ bypass validation
+❌ orchestrate pipelines
+
+---
+
+# MODULE 15 — RECOMMENDED TECH STACK (AI-FIRST NO-CODE FRIENDLY)
+
+# BACKEND
+
+---
+
+## Recommended
+
+### API / Orchestration
+
+* [FastAPI](https://fastapi.tiangolo.com?utm_source=chatgpt.com)
+* [Celery](https://docs.celeryq.dev?utm_source=chatgpt.com)
+* [Redis](https://redis.io?utm_source=chatgpt.com)
+
+---
+
+## Storage
+
+* [PostgreSQL](https://www.postgresql.org?utm_source=chatgpt.com)
+* JSONB
+* later pgvector
+
+---
+
+## Excel Parsing
+
+* [openpyxl](https://openpyxl.readthedocs.io?utm_source=chatgpt.com)
+* [pandas](https://pandas.pydata.org?utm_source=chatgpt.com)
+
+---
+
+## AI Layer
+
+### Initially
+
+* OpenAI structured outputs
+* embedding models only for fallback matching
+
+---
+
+## Validation UI
+
+### Initially
+
+* [Streamlit](https://streamlit.io?utm_source=chatgpt.com)
+
+### Later
+
+* React frontend
+
+---
+
+# IMPORTANT
+
+Для AI-assisted development
+этот stack:
+
+* понятен LLM,
+* хорошо документирован,
+* low-friction,
+* AI-friendly.
+
+---
+
+# 16. DEVELOPMENT STRATEGY (CRITICAL)
+
+# DO NOT BUILD EVERYTHING
+
+---
+
+# PHASE 1
+
+# Excel → Structure → Revision Delta
+
+ТОЛЬКО ЭТО.
+
+---
+
+# PHASE 2
+
+# Material Normalization
+
+# Procurement Needs
+
+---
+
+# PHASE 3
+
+# Procurement Workflow
+
+---
+
+# PHASE 4
+
+# PDF/OCR
+
+НЕ раньше.
+
+---
+
+# 17. THE MOST IMPORTANT STRATEGIC ADVICE
+
+Твой настоящий moat будет НЕ AI.
+
+И НЕ parsing.
+
+А:
+
+```text id="xjlwm2"
+trusted revision-aware procurement dataset
+```
+
+Потому что через несколько лет:
+
+* OCR станет commodity,
+* extraction станет commodity,
+* LLM parsing станет commodity.
+
+Но:
+
+```text id="vjlwm9"
+construction revision intelligence
++
+historical procurement graph
++
+validated material ontology
+```
+
+это уже очень тяжело повторить.

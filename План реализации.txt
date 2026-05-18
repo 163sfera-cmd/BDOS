@@ -1,0 +1,1621 @@
+# MASTER IMPLEMENTATION PLAN v1
+
+# Construction Procurement Intelligence Platform
+
+## PSD → Procurement System
+
+### AI-First Development Roadmap (Without Full Dev Team)
+
+---
+
+# 0. DOCUMENT PURPOSE
+
+Этот документ — не “идея”.
+
+Это:
+
+# OPERATING BUILD PLAN
+
+Он должен использоваться как:
+
+* roadmap
+* execution checklist
+* AI task source
+* sprint tracker
+* architecture contract
+* onboarding document
+
+---
+
+# IMPORTANT BUILD PRINCIPLE
+
+Ты НЕ строишь:
+
+```text id="f5rxv2"
+enterprise unicorn infrastructure сразу
+```
+
+Ты строишь:
+
+```text id="6ov7m0"
+очень надежный workflow:
+Excel PSD → structured procurement data
+```
+
+---
+
+# PRODUCT MVP GOAL
+
+Пользователь должен уметь:
+
+```text id="ljy0r4"
+1. Загрузить СО/ВР
+2. Получить структурированные позиции
+3. Увидеть ИЗМ
+4. Получить потребность объекта
+5. Создать заявку
+6. Отдать снабженцу
+```
+
+---
+
+# GLOBAL DEVELOPMENT STRATEGY
+
+---
+
+# STAGE ORDER (STRICT)
+
+```text id="dc1vqv"
+FOUNDATION
+↓
+DATASET
+↓
+EXCEL EXTRACTION
+↓
+STRUCTURE ENGINE
+↓
+VALIDATION UI
+↓
+REVISION ENGINE
+↓
+PROCUREMENT ENGINE
+↓
+SUPPLY WORKFLOW
+↓
+PDF/OCR
+```
+
+---
+
+# CRITICAL RULE
+
+НЕ переходить дальше,
+пока предыдущий этап:
+
+* не стабилен
+* не протестирован
+* не имеет метрик
+
+---
+
+# BLOCK 1 — COMPANY & INFRASTRUCTURE FOUNDATION
+
+# GOAL
+
+Создать базовую инфраструктуру проекта.
+
+---
+
+# 1.1 Product Naming
+
+# TASKS
+
+## Decide final product name
+
+### Requirements
+
+Имя должно быть:
+
+* коротким
+* легко читаемым
+* B2B-friendly
+* технологичным
+* НЕ “AI magic”
+* НЕ generic
+
+---
+
+# EXAMPLES
+
+* Nitima
+* StructFlow
+* Revicon
+* BuildDelta
+* ProcStruct
+* ConRevision
+
+---
+
+# OUTPUT
+
+```text id="zq3b4f"
+final_product_name
+```
+
+---
+
+# STATUS
+
+```text id="i7m1kn"
+[ ] NOT STARTED
+```
+
+---
+
+# 1.2 Domain Purchase
+
+# PURPOSE
+
+Создать permanent infrastructure identity.
+
+---
+
+# RECOMMENDED DOMAINS
+
+## Priority
+
+```text id="k0x95w"
+.com
+.io
+.ai
+.tech
+```
+
+---
+
+# RECOMMENDED SERVICES
+
+* [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/?utm_source=chatgpt.com)
+* [Namecheap](https://www.namecheap.com?utm_source=chatgpt.com)
+
+---
+
+# REQUIREMENTS
+
+✅ WHOIS privacy
+✅ auto-renewal
+✅ DNS management
+
+---
+
+# OUTPUT
+
+```yaml id="b2y7r8"
+domain:
+  purchased: true
+  registrar:
+  expiration:
+```
+
+---
+
+# STATUS
+
+```text id="fj9w3x"
+[ ] NOT STARTED
+```
+
+---
+
+# 1.3 Core Infrastructure Accounts
+
+# CREATE ACCOUNTS
+
+---
+
+## Git Repository
+
+# RECOMMENDED
+
+* [GitHub](https://github.com?utm_source=chatgpt.com)
+
+---
+
+## Cloud Provider
+
+# RECOMMENDED
+
+Initially:
+
+* [Hetzner Cloud](https://www.hetzner.com/cloud?utm_source=chatgpt.com)
+
+Later:
+
+* AWS
+
+---
+
+## Object Storage
+
+# RECOMMENDED
+
+* [Cloudflare R2](https://www.cloudflare.com/developer-platform/r2/?utm_source=chatgpt.com)
+
+---
+
+## Database Hosting
+
+Initially:
+
+* [Supabase](https://supabase.com?utm_source=chatgpt.com)
+
+Later:
+
+* self-managed PostgreSQL
+
+---
+
+## Monitoring
+
+* [Sentry](https://sentry.io?utm_source=chatgpt.com)
+
+---
+
+# OUTPUT
+
+```text id="jlwm21"
+infrastructure_accounts_ready
+```
+
+---
+
+# STATUS
+
+```text id="jlwm22"
+[ ] NOT STARTED
+```
+
+---
+
+# 1.4 Repository Structure
+
+# PURPOSE
+
+Создать clean AI-friendly architecture.
+
+---
+
+# CREATE REPOSITORIES
+
+---
+
+## Backend
+
+```text id="jlwm23"
+backend-api
+```
+
+---
+
+## AI Pipelines
+
+```text id="jlwm24"
+document-intelligence
+```
+
+---
+
+## Frontend
+
+```text id="jlwm25"
+validation-ui
+```
+
+---
+
+## Documentation
+
+```text id="jlwm26"
+product-specs
+```
+
+---
+
+# REQUIRED FOLDERS
+
+```text id="jlwm27"
+docs/
+architecture/
+schemas/
+golden_dataset/
+pipelines/
+tests/
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm28"
+repository_structure_ready
+```
+
+---
+
+# STATUS
+
+```text id="jlwm29"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 2 — PRODUCT SPECIFICATION SYSTEM
+
+# THIS IS EXTREMELY IMPORTANT
+
+---
+
+# GOAL
+
+Создать “конституцию” продукта.
+
+---
+
+# 2.1 Create Master Product Spec
+
+# FILE
+
+```text id="jlwm30"
+docs/master_product_spec.md
+```
+
+---
+
+# MUST CONTAIN
+
+---
+
+## Supported Document Types
+
+```text id="jlwm31"
+СО
+ВР
+Спецификация
+Ведомость материалов
+```
+
+---
+
+## Construction Terms
+
+Создать словарь терминов.
+
+---
+
+## Revision Patterns
+
+Как выглядят ИЗМ.
+
+---
+
+## Structural Patterns
+
+Как выглядят:
+
+* таблицы
+* разделы
+* continuation rows
+* totals
+
+---
+
+# OUTPUT
+
+```text id="jlwm32"
+master_spec_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm33"
+[ ] NOT STARTED
+```
+
+---
+
+# 2.2 Create Ontology Boundaries
+
+# PURPOSE
+
+Ограничить semantic chaos.
+
+---
+
+# MUST DEFINE
+
+---
+
+## What is:
+
+* material
+* position
+* section
+* procurement item
+* revision
+
+---
+
+## What system DOES NOT normalize
+
+Это критично.
+
+---
+
+# OUTPUT
+
+```text id="jlwm34"
+ontology_boundary_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm35"
+[ ] NOT STARTED
+```
+
+---
+
+# 2.3 Create Confidence Policy
+
+# PURPOSE
+
+Определить правила uncertainty.
+
+---
+
+# DEFINE
+
+---
+
+## Confidence Levels
+
+```yaml id="jlwm36"
+0.95+ = auto-accept
+0.75-0.95 = review recommended
+<0.75 = validation required
+```
+
+---
+
+# DEFINE
+
+## UNKNOWN-first logic
+
+---
+
+# OUTPUT
+
+```text id="jlwm37"
+confidence_policy_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm38"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 3 — GOLDEN DATASET CREATION
+
+# THIS IS THE MOST IMPORTANT TECHNICAL ASSET
+
+---
+
+# GOAL
+
+Собрать реальные construction документы.
+
+---
+
+# 3.1 Collect Real Documents
+
+# TARGET
+
+Минимум:
+
+```text id="jlwm39"
+100+ real Excel files
+```
+
+---
+
+# REQUIRED TYPES
+
+✅ СО
+✅ ВР
+✅ спецификации
+✅ ведомости
+✅ ИЗМ
+
+---
+
+# REQUIRED VARIETY
+
+---
+
+## Different Contractors
+
+---
+
+## Different Years
+
+---
+
+## Different Disciplines
+
+```text id="jlwm40"
+АР
+КЖ
+КМ
+ОВ
+ВК
+ЭОМ
+```
+
+---
+
+# IMPORTANT
+
+Собирать:
+НЕ красивые документы.
+
+А:
+
+```text id="jlwm41"
+production chaos
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm42"
+golden_dataset_raw
+```
+
+---
+
+# STATUS
+
+```text id="jlwm43"
+[ ] NOT STARTED
+```
+
+---
+
+# 3.2 Dataset Annotation
+
+# PURPOSE
+
+Создать ground truth.
+
+---
+
+# FOR EACH DOCUMENT
+
+Нужно вручную отметить:
+
+---
+
+## Headers
+
+---
+
+## Sections
+
+---
+
+## Positions
+
+---
+
+## Totals
+
+---
+
+## Units
+
+---
+
+## Continuation Rows
+
+---
+
+## Revision Markers
+
+---
+
+# OUTPUT
+
+```text id="jlwm44"
+golden_dataset_annotated
+```
+
+---
+
+# STATUS
+
+```text id="jlwm45"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 4 — DEVELOPMENT ENVIRONMENT
+
+# GOAL
+
+Подготовить AI-friendly engineering environment.
+
+---
+
+# 4.1 Local Development Stack
+
+# INSTALL
+
+---
+
+## Python
+
+# VERSION
+
+```text id="jlwm46"
+Python 3.12+
+```
+
+---
+
+## IDE
+
+# RECOMMENDED
+
+* [Cursor](https://cursor.com?utm_source=chatgpt.com)
+* [VS Code](https://code.visualstudio.com?utm_source=chatgpt.com)
+
+---
+
+## Package Manager
+
+* uv
+  or
+* poetry
+
+---
+
+# OUTPUT
+
+```text id="jlwm47"
+local_environment_ready
+```
+
+---
+
+# STATUS
+
+```text id="jlwm48"
+[ ] NOT STARTED
+```
+
+---
+
+# 4.2 AI Development Workflow
+
+# PURPOSE
+
+Настроить работу с AI.
+
+---
+
+# REQUIRED RULES
+
+---
+
+## Every AI task must contain:
+
+### Context
+
+### Goal
+
+### Constraints
+
+### Expected output
+
+### Acceptance criteria
+
+---
+
+# CREATE
+
+```text id="jlwm49"
+ai_task_template.md
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm50"
+ai_workflow_ready
+```
+
+---
+
+# STATUS
+
+```text id="jlwm51"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 5 — DATABASE & CORE SCHEMA
+
+# GOAL
+
+Создать минимальное стабильное ядро данных.
+
+---
+
+# IMPORTANT
+
+НЕ делать giant schema сразу.
+
+---
+
+# 5.1 PostgreSQL Setup
+
+# CREATE
+
+---
+
+## Database
+
+```text id="jlwm52"
+construction_intelligence
+```
+
+---
+
+## Enable
+
+```text id="jlwm53"
+uuid-ossp
+pgcrypto
+ltree
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm54"
+postgres_ready
+```
+
+---
+
+# STATUS
+
+```text id="jlwm55"
+[ ] NOT STARTED
+```
+
+---
+
+# 5.2 Core Tables
+
+# CREATE MINIMAL TABLES
+
+---
+
+## projects
+
+---
+
+## files
+
+---
+
+## revisions
+
+---
+
+## sections
+
+---
+
+## positions
+
+---
+
+## materials
+
+---
+
+## procurement_requests
+
+---
+
+## provenance
+
+---
+
+# IMPORTANT
+
+ВСЕ таблицы:
+
+```text id="jlwm56"
+tenant_id
+created_at
+updated_at
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm57"
+core_schema_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm58"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 6 — EXCEL INGESTION ENGINE
+
+# THIS IS THE FIRST REAL ENGINEERING STAGE
+
+---
+
+# GOAL
+
+Reliable deterministic Excel extraction.
+
+---
+
+# 6.1 Raw Excel Reader
+
+# USE
+
+* [openpyxl](https://openpyxl.readthedocs.io?utm_source=chatgpt.com)
+
+---
+
+# EXTRACT
+
+---
+
+## Cells
+
+---
+
+## Merged regions
+
+---
+
+## Borders
+
+---
+
+## Styles
+
+---
+
+## Formulas
+
+---
+
+## Hidden rows
+
+---
+
+# OUTPUT FORMAT
+
+# Excel Raw Graph
+
+---
+
+# OUTPUT
+
+```text id="jlwm59"
+raw_excel_graph_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm60"
+[ ] NOT STARTED
+```
+
+---
+
+# 6.2 Structural Heuristics Engine
+
+# PURPOSE
+
+Восстановить hierarchy.
+
+---
+
+# CREATE RULES
+
+---
+
+## Header Detection
+
+---
+
+## Section Detection
+
+---
+
+## Continuation Detection
+
+---
+
+## Totals Detection
+
+---
+
+# IMPORTANT
+
+Каждое правило:
+
+```yaml id="jlwm61"
+rule_id
+description
+confidence
+examples
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm62"
+heuristics_engine_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm63"
+[ ] NOT STARTED
+```
+
+---
+
+# 6.3 Structural Reconstruction
+
+# PURPOSE
+
+Построить:
+
+# Unified Structural Representation
+
+---
+
+# REQUIRED OUTPUT
+
+```text id="jlwm64"
+section
+subsection
+position
+quantity
+unit
+notes
+totals
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm65"
+usr_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm66"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 7 — VALIDATION UI
+
+# THIS IS CORE PRODUCT VALUE
+
+---
+
+# GOAL
+
+Создать удобную human validation system.
+
+---
+
+# 7.1 Build Initial UI
+
+# USE
+
+* [Streamlit](https://streamlit.io?utm_source=chatgpt.com)
+
+---
+
+# REQUIRED SCREENS
+
+---
+
+## Upload Screen
+
+---
+
+## Document Viewer
+
+---
+
+## Structure Validation
+
+---
+
+## Position Validation
+
+---
+
+## Revision Diff Viewer
+
+---
+
+# OUTPUT
+
+```text id="jlwm67"
+validation_ui_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm68"
+[ ] NOT STARTED
+```
+
+---
+
+# 7.2 Build Validation Queue
+
+# FEATURES
+
+---
+
+## Priority Scoring
+
+---
+
+## Batch Approval
+
+---
+
+## Reject/Correct
+
+---
+
+## Unknown Queue
+
+---
+
+# OUTPUT
+
+```text id="jlwm69"
+validation_queue_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm70"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 8 — MATERIAL NORMALIZATION
+
+# GOAL
+
+Нормализовать материалы.
+
+---
+
+# 8.1 Material Dictionary
+
+# CREATE
+
+```text id="jlwm71"
+canonical_materials.csv
+```
+
+---
+
+# FIELDS
+
+```text id="jlwm72"
+canonical_name
+aliases
+unit
+category
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm73"
+material_dictionary_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm74"
+[ ] NOT STARTED
+```
+
+---
+
+# 8.2 Matching Pipeline
+
+# BUILD
+
+```text id="jlwm75"
+dictionary
+→ rules
+→ fuzzy
+→ embeddings
+→ LLM fallback
+```
+
+---
+
+# IMPORTANT
+
+Low confidence:
+
+```text id="jlwm76"
+UNKNOWN
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm77"
+normalization_engine_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm78"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 9 — REVISION ENGINE
+
+# GOAL
+
+Понимать ИЗМ.
+
+---
+
+# 9.1 Revision Matcher
+
+# DETECT
+
+---
+
+## Added positions
+
+---
+
+## Removed positions
+
+---
+
+## Changed quantities
+
+---
+
+## Renamed rows
+
+---
+
+# OUTPUT
+
+```text id="jlwm79"
+revision_delta_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm80"
+[ ] NOT STARTED
+```
+
+---
+
+# 9.2 Procurement Delta
+
+# OUTPUT
+
+```text id="jlwm81"
++120 м2 профлиста
+-40 м трубы
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm82"
+procurement_delta_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm83"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 10 — PROCUREMENT ENGINE
+
+# GOAL
+
+Создать procurement workflow.
+
+---
+
+# 10.1 Procurement Requests
+
+# CREATE
+
+---
+
+## Request lifecycle
+
+```text id="jlwm84"
+NEW
+IN_PROGRESS
+ORDERED
+DELIVERED
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm85"
+procurement_requests_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm86"
+[ ] NOT STARTED
+```
+
+---
+
+# 10.2 Remaining Demand Engine
+
+# CALCULATE
+
+```text id="jlwm87"
+required
+-
+ordered
+-
+delivered
+=
+remaining
+```
+
+---
+
+# OUTPUT
+
+```text id="jlwm88"
+remaining_demand_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm89"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 11 — OBSERVABILITY & QUALITY
+
+# GOAL
+
+Контроль качества системы.
+
+---
+
+# 11.1 Metrics System
+
+# TRACK
+
+---
+
+## Structural Accuracy
+
+---
+
+## Validation Minutes
+
+---
+
+## Unknown Rate
+
+---
+
+## Revision Accuracy
+
+---
+
+# OUTPUT
+
+```text id="jlwm90"
+metrics_dashboard_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm91"
+[ ] NOT STARTED
+```
+
+---
+
+# 11.2 Regression Testing
+
+# PURPOSE
+
+НЕ ломать extraction.
+
+---
+
+# BUILD
+
+Golden Dataset CI.
+
+---
+
+# OUTPUT
+
+```text id="jlwm92"
+golden_dataset_ci
+```
+
+---
+
+# STATUS
+
+```text id="jlwm93"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 12 — FIRST PRODUCTION DEPLOYMENT
+
+# GOAL
+
+Выпустить usable MVP.
+
+---
+
+# 12.1 Deploy Backend
+
+# RECOMMENDED
+
+* Docker
+* Hetzner
+* PostgreSQL
+* Redis
+
+---
+
+# OUTPUT
+
+```text id="jlwm94"
+backend_production_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm95"
+[ ] NOT STARTED
+```
+
+---
+
+# 12.2 Deploy UI
+
+# REQUIREMENTS
+
+✅ HTTPS
+✅ authentication
+✅ upload support
+✅ audit logging
+
+---
+
+# OUTPUT
+
+```text id="jlwm96"
+frontend_production_v1
+```
+
+---
+
+# STATUS
+
+```text id="jlwm97"
+[ ] NOT STARTED
+```
+
+---
+
+# BLOCK 13 — FIRST REAL PROJECT PILOT
+
+# THIS IS CRITICAL
+
+---
+
+# GOAL
+
+Прогнать реальный объект.
+
+---
+
+# REQUIRED
+
+---
+
+## Real PSD
+
+---
+
+## Real revisions
+
+---
+
+## Real procurement workflow
+
+---
+
+# MEASURE
+
+---
+
+## Validation time
+
+---
+
+## Procurement usefulness
+
+---
+
+## Delta accuracy
+
+---
+
+## Human trust
+
+---
+
+# OUTPUT
+
+```text id="jlwm98"
+pilot_project_report
+```
+
+---
+
+# STATUS
+
+```text id="jlwm99"
+[ ] NOT STARTED
+```
+
+---
+
+# FINAL BUILD PRINCIPLE
+
+Если сомневаешься между:
+
+```text id="jlwm100"
+"сделать AI магию"
+```
+
+и:
+
+```text id="jlwm101"
+"сделать deterministic reliable workflow"
+```
+
+ВСЕГДА выбирать второе.
+
+---
+
+# MOST IMPORTANT THING TO REMEMBER
+
+Твой будущий moat:
+
+НЕ OCR.
+
+НЕ LLM.
+
+НЕ parsing.
+
+А:
+
+```text id="jlwm102"
+trusted construction procurement intelligence
+built on revision-aware structured data
+```
